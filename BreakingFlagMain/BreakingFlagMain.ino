@@ -88,14 +88,23 @@ void loop(){
   Serial.println(" ");
 
   int mLeft = joyY; // A
-  int mRight = JoyY; // B
+  int mRight = joyY; // B
   
-  if (joyX > 0) {
-    mRight = mRight - joyX;
-    
+  if (joyX > 10) {
+    if (joyY > 10) {
+        mRight = mRight - joyX;
+    } 
+    if (joyY < -10) {
+       mRight = mRight - joyX; 
+    }
   }
-  if (joyX < 0) {
-    mLeft = mLeft - joyX; 
+  if (joyX < -10) {
+    if (joyY > 10) {
+        mLeft = mLeft + joyX;
+    } 
+    if (joyY < -10) {
+       mLeft = mLeft + joyX; 
+    } 
   }
   
  //     digitalWrite(pin1, HIGH);
@@ -103,8 +112,20 @@ void loop(){
 
   //    analogWrite(pinPwm, abs(power));
   
+  mLeft = map(mLeft, -512, 512, -255, 255); 
+  mRight = map(mRight, -512, 512, -255, 255);
   
+  if (abs(mLeft) < 10) {
+    mLeft = 0;
+  }
+  if (abs(mRight) < 10) {
+    mRight = 0;
+  }
   
+  setMotor(0, mLeft);
+  setMotor(1, mRight);
+    
+  /*
   if (digitalRead(buttonPinB) == buttonPressed) {     
     setMotor(0, outputValue);      
     setMotor(1, outputValue);      
@@ -117,7 +138,7 @@ void loop(){
     setMotor(0, 0);
     setMotor(1, 0);    
   }
-  
+  */
   //Serial.println(potencValue);// + " " + outputValue);
   
   delay(100);
