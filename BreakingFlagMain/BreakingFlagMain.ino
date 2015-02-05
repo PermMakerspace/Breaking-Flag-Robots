@@ -31,12 +31,12 @@ const int buttonPinB = 3;
 
 int pinStb = 12;
 
-int motorAPin1 = 7;
-int motorAPin2 = 8;
+int motorAPin1 = 8;
+int motorAPin2 = 7;
 int motorAPinPWM = 9;
 
-int motorBPin1 = 4;
-int motorBPin2 = 5;
+int motorBPin1 = 5;
+int motorBPin2 = 4;
 int motorBPinPWM = 6;
 
 //int potencPin = A0;
@@ -83,34 +83,48 @@ void loop(){
   int joyX = analogRead(joyXpin) - 512;
   int joyY = analogRead(joyYpin) - 512;
   
-  Serial.println(joyX);
-  Serial.println(joyY);
+  Serial.print("x ");
+  Serial.print(joyX);
+  Serial.print(" y ");
+  Serial.print(joyY);
   Serial.println(" ");
 
   int mLeft = joyY; // A
   int mRight = joyY; // B
-  
+  /*
   if (joyX > 10) {
     if (joyY > 10) {
         mRight = mRight - joyX;
+        if (mRight < 0) mRight = 0;
     } 
-    if (joyY < -10) {
-       mRight = mRight - joyX; 
-    }
+    //if (joyY < -10) {
+    //   mRight = mRight + joyX; 
+    //}
   }
   if (joyX < -10) {
     if (joyY > 10) {
         mLeft = mLeft + joyX;
+        if (mLeft < 0) mLeft = 0;
     } 
-    if (joyY < -10) {
-       mLeft = mLeft + joyX; 
-    } 
+    //if (joyY < -10) {
+    //   mLeft = mLeft - joyX; 
+    //} 
   }
+  */
   
- //     digitalWrite(pin1, HIGH);
-  //    digitalWrite(pin2, LOW);
+  int len = sqrt(joyX * joyX + joyY * joyY);
+  
+  if (joyX > 0) {
+    mRight = mRight 
+  }
 
-  //    analogWrite(pinPwm, abs(power));
+
+  
+  Serial.print("l ");
+  Serial.print(mLeft);
+  Serial.print(" r ");
+  Serial.print(mRight);
+  Serial.println(" ");
   
   mLeft = map(mLeft, -512, 512, -255, 255); 
   mRight = map(mRight, -512, 512, -255, 255);
@@ -122,8 +136,16 @@ void loop(){
     mRight = 0;
   }
   
-  setMotor(0, mLeft);
-  setMotor(1, mRight);
+  Serial.print("L ");
+  Serial.print(mLeft);
+  Serial.print(" R ");
+  Serial.print(mRight);
+  Serial.println(" ");
+  
+  Serial.println(" ");
+  
+  setMotor(1, mLeft);
+  setMotor(0, mRight);
     
   /*
   if (digitalRead(buttonPinB) == buttonPressed) {     
@@ -141,7 +163,7 @@ void loop(){
   */
   //Serial.println(potencValue);// + " " + outputValue);
   
-  delay(100);
+  delay(1000);
 }
 
 void setMotor(int motor, int power) {
