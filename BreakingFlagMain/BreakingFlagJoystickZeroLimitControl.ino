@@ -124,33 +124,23 @@ void loop(){
     } else if (joyX > 0) {
       mLeft = joyY;
       mRight = joyY  - abs(joyX);
-      //if (mRight < 0) {
-      //  mRight = 0;
-      //}
+      if (mRight < 0) {
+        mRight = 0;
+      }
     } else if (joyX < 0) {
       mRight = joyY;
       mLeft = joyY - abs(joyX);
-      //if (mLeft < 0) {
-      //  mLeft = 0;
-      //}      
+      if (mLeft < 0) {
+        mLeft = 0;
+      }      
     }  
   }
   if (joyY < -deadZone) { // backward
-    if (abs(joyX) < deadZone) {
-      mLeft = joyY;
-      mRight = joyY;
-    } else if (joyX > 0) {
-      mLeft = joyY;
-      mRight = joyY  - (-abs(joyX));
-      //if (mRight > 0) {
-      //  mRight = 0;
-      //}
-    } else if (joyX < 0) {
-      mRight = joyY;
-      mLeft = joyY - (-abs(joyX));
-      //if (mLeft > 0) {
-      //  mLeft = 0;
-      //}      
+    if (joyX < 100) {
+      mRight = -255;
+    }
+    if (joyX > -100) {
+      mLeft = -255;
     }    
   }
   if (abs(joyX) < deadZone && abs(joyY) < deadZone) {
@@ -174,15 +164,15 @@ void loop(){
   Serial.print(mRight);
   Serial.println(" ");
   
-  mLeft = map(mLeft, -512, 512, -255, 255); 
-  mRight = map(mRight, -512, 512, -255, 255);
+  //mLeft = map(mLeft, -512, 512, -255, 255); 
+  //mRight = map(mRight, -512, 512, -255, 255);
   
-  //if (abs(mLeft) < deadZone) {
-  //  mLeft = 0;
-  //}
-  //if (abs(mRight) < deadZone) {
-  //  mRight = 0;
-  //}
+  if (abs(mLeft) < deadZone) {
+    mLeft = 0;
+  }
+  if (abs(mRight) < deadZone) {
+    mRight = 0;
+  }
   
   Serial.print("L ");
   Serial.print(mLeft);
@@ -212,7 +202,6 @@ void loop(){
   //Serial.println(potencValue);// + " " + outputValue);
   
   delay(50);
-  //delay(1000);
 }
 
 void setMotor(int motor, int power) {

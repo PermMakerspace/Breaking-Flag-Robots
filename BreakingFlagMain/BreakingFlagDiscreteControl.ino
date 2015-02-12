@@ -115,42 +115,19 @@ void loop(){
   */
 
   if (joyY > deadZone) { // forward
-    //int diff = joyY - abs(joyX); // разница между направлением и поворотом. если поворот больше. то один мотор стопится вообще. если нет, из одного из моторов вычитается модуль х
-    // но можно проще. из не поворачивающего мотора из y вычитать х и ограничивать нулем
-  
-    if (abs(joyX) < deadZone) {
-      mLeft = joyY;
-      mRight = joyY;
-    } else if (joyX > 0) {
-      mLeft = joyY;
-      mRight = joyY  - abs(joyX);
-      //if (mRight < 0) {
-      //  mRight = 0;
-      //}
-    } else if (joyX < 0) {
-      mRight = joyY;
-      mLeft = joyY - abs(joyX);
-      //if (mLeft < 0) {
-      //  mLeft = 0;
-      //}      
-    }  
+    if (joyX < 100) {
+      mRight = 255;
+    }
+    if (joyX > -100) {
+      mLeft = 255;
+    }    
   }
   if (joyY < -deadZone) { // backward
-    if (abs(joyX) < deadZone) {
-      mLeft = joyY;
-      mRight = joyY;
-    } else if (joyX > 0) {
-      mLeft = joyY;
-      mRight = joyY  - (-abs(joyX));
-      //if (mRight > 0) {
-      //  mRight = 0;
-      //}
-    } else if (joyX < 0) {
-      mRight = joyY;
-      mLeft = joyY - (-abs(joyX));
-      //if (mLeft > 0) {
-      //  mLeft = 0;
-      //}      
+    if (joyX < 100) {
+      mRight = -255;
+    }
+    if (joyX > -100) {
+      mLeft = -255;
     }    
   }
   if (abs(joyX) < deadZone && abs(joyY) < deadZone) {
@@ -174,15 +151,15 @@ void loop(){
   Serial.print(mRight);
   Serial.println(" ");
   
-  mLeft = map(mLeft, -512, 512, -255, 255); 
-  mRight = map(mRight, -512, 512, -255, 255);
+  //mLeft = map(mLeft, -512, 512, -255, 255); 
+  //mRight = map(mRight, -512, 512, -255, 255);
   
-  //if (abs(mLeft) < deadZone) {
-  //  mLeft = 0;
-  //}
-  //if (abs(mRight) < deadZone) {
-  //  mRight = 0;
-  //}
+  if (abs(mLeft) < deadZone) {
+    mLeft = 0;
+  }
+  if (abs(mRight) < deadZone) {
+    mRight = 0;
+  }
   
   Serial.print("L ");
   Serial.print(mLeft);
@@ -211,8 +188,7 @@ void loop(){
   */
   //Serial.println(potencValue);// + " " + outputValue);
   
-  delay(50);
-  //delay(1000);
+  delay(1000);
 }
 
 void setMotor(int motor, int power) {
